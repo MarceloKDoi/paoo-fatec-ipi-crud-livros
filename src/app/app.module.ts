@@ -8,11 +8,14 @@ import { LivroInserirComponent } from './livros/livro-inserir/livro-inserir.comp
 import { CabecalhoComponent } from './cabecalho/cabecalho.component';
 import { LivroListaComponent } from './livros/livro-lista/livro-lista.component';
 
+import { LivroService } from './livros/livro.service';
+
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
+
 
 
 
@@ -36,7 +39,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatToolbarModule,
     MatExpansionModule
   ],
-  providers: [],
+  providers: [LivroService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

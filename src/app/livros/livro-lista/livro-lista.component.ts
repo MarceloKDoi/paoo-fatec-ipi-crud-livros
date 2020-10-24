@@ -1,5 +1,7 @@
-import { Component, OnInit ,Input} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Livro } from '../livro.model';
+import { LivroService } from '../livro.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-livro-lista',
@@ -8,8 +10,26 @@ import { Livro } from '../livro.model';
 })
 export class LivroListaComponent implements OnInit {
 
-  @Input() livros: Livro [] = [];
+  livros: Livro[] = [];
+  private livroSubscription: Subscription;
 
+
+  constructor(public livroService: LivroService) { }
+
+  ngOnInit(): void {
+    this.livros = this.livroService.getLivros();
+    this.livroSubscription = this.livroService.getListaLivrosAtualizada()
+    .subscribe((livros: Livro[]) => {
+      this.livros = livros;
+    });
+  }
+
+  ngOnDestroy (): void {
+    this.livroSubscription.unsubscribe();
+  }
+
+
+  /* @Input() livros: Livro [] = [];*/
  /* livros = [
     {
       titulo: 'The Maze Runner',
@@ -30,9 +50,6 @@ export class LivroListaComponent implements OnInit {
       paginas: '325'
     }
   ]*/
-  constructor() { }
 
-  ngOnInit(): void {
-  }
 
 }
