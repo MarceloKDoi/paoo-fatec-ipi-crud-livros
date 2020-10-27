@@ -17,8 +17,9 @@ export class LivroListaComponent implements OnInit {
   constructor(public livroService: LivroService) { }
 
   ngOnInit(): void {
-    this.livros = this.livroService.getLivros();
-    this.livroSubscription = this.livroService.getListaLivrosAtualizada()
+    this.livroService.getLivros();
+    this.livroSubscription = this.livroService
+    .getListaLivrosAtualizada()
     .subscribe((livros: Livro[]) => {
       this.livros = livros;
     });
