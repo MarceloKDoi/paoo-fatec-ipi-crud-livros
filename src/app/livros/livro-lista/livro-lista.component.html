@@ -1,14 +1,14 @@
 <mat-accordion *ngIf="livros.length > 0">
   <mat-expansion-panel *ngFor="let livro of livros">
     <mat-expansion-panel-header>
-      <p>{{livro.titulo}}</p>
+     <p>{{livro.titulo}}</p>
     </mat-expansion-panel-header>
-    <p>{{livro.id}}</p>
-    <p>{{livro.autor}}</p>
-    <p>{{livro.paginas}}</p>
+     <p>{{livro.autor}}</p>
+     <p>{{livro.paginas}}</p>
+     <p>{{livro.id}}</p>
     <mat-action-row>
       <button mat-button color="primary">Editar</button>
-      <button mat-button color="warn">Remover</button>
+      <button mat-button color="warn" (click)="onDelete(livro.id)">Remover</button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>

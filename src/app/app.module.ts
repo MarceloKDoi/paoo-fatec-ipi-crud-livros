@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
+import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { LivroInserirComponent } from './livros/livro-inserir/livro-inserir.component';
 import { CabecalhoComponent } from './cabecalho/cabecalho.component';
@@ -31,6 +33,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     LivroListaComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,

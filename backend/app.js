@@ -15,26 +15,8 @@ app.use((req, res, next) => {
 mongoose.connect('mongodb+srv://fatec_ipi:4houmedekimassu@marcelo.ekoio.mongodb.net/fatec_ipi?retryWrites=true&w=majority')
 .then(() => console.log ("Conexão Ok"))
 .catch((e) => console.log ("Conexão falhou:" + e))
-const livros = [
-  {
-    titulo: 'The Maze Runner',
-    id: 'E-0001',
-    autor: 'James Dashner',
-    paginas: '372'
-  },
-  {
-    titulo: 'The Scorsh Trials',
-    id: 'E-0002',
-    autor: 'James Dashner',
-    paginas: '360'
-  },
-  {
-    titulo: 'The Kill Order',
-    id: 'E-0003',
-    autor: 'James Dashner',
-    paginas: '325'
-  }
-]
+
+
 
 //CORS: Cross Origin Resource Sharing
 
@@ -45,19 +27,51 @@ app.use ((req,res,next) => {
   next();
 });
 
+/*
+app.post ('/api/livros', (req, res, next) => {
+  const livro = new Livro({
+  titulo: req.body.titulo,
+  id: req.body.id,
+  autor: req.body.autor,
+  paginas:req.body.paginas
+  })
+  console.log (livro);
+  res.status(201).json({mensagem: 'Livro inserido'})
+  });
+*/
+/*
+app.post('/api/livros',(req, res, next) => {
+  const livro = req.body;
+  livros.push(livro);
+  console.log(livro);
+  res.status(201).json({
+    mensagem: 'Livro inserido'
+  })
+});
+
+
+app.use ('/api/livros',(req,res,next) => {
+  res.status(200).json({
+    mensagem:"Tudo Ok",
+    livros: livros
+  })
+});*/
 
 app.post('/api/livros', (req, res, next) => {
   const livro = new Livro ({
-    titulo: req.body.titulo,
+
     id: req.body.id,
+    titulo: req.body.titulo,
     autor: req.body.autor,
     paginas: req.body.paginas
+
   });
   livro.save()
-  .then((document) =>{
-    console.log(`Inserção ok: ${document}`);
+  .then((livroInserido) =>{
+    console.log(`Inserção ok: ${livroInserido}`);
     res.status(201).json({
-      mensagem:'Livro Inserido'
+      mensagem:'Livro Inserido',
+      id: livroInserido._id
     })
   })
   .catch((error) =>{
@@ -68,20 +82,11 @@ app.post('/api/livros', (req, res, next) => {
   })
 });
 
-/*
-app.post('/api/livros', (req, res, next) => {
-  const livro = req.body;
-  livros.push(livro);
-  console.log(livro);
-  res.status(201).json({
-    mensagem:'Livro Inserido'
-  });
-});*/
-
 
 app.get ('/api/livros',(req, res, next) => {
   Livro.find()
   .then(documents => {
+    console.log(documents);
     res.status(200).json({
       mensagem: 'Tudo ok',
       livros: documents
@@ -94,8 +99,17 @@ app.get ('/api/livros',(req, res, next) => {
       livros: []
     })
   })
+});
 
-
+//DELETE /api/livros/5f998a124381ae1ee15f8299
+app.delete ('/api/livros/:id' , (req, res, next) => {
+  Livro.deleteOne({_id: req.params.id})
+  .then((resultado) => {
+    console.log(resultado);
+    res.status(200).json({mensagem: "Livro removido"});
+  })
+ // console.log(req.params);
+  res.status(200).end();
 });
 
 module.exports = app;

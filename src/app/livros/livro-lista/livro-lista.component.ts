@@ -25,32 +25,14 @@ export class LivroListaComponent implements OnInit {
     });
   }
 
+  onDelete (id: string): void{
+    this.livroService.removerLivro(id);
+  }
+
   ngOnDestroy (): void {
     this.livroSubscription.unsubscribe();
   }
 
-
-  /* @Input() livros: Livro [] = [];*/
- /* livros = [
-    {
-      titulo: 'The Maze Runner',
-      id: 'E-0001',
-      autor: 'James Dashner',
-      paginas: '372'
-    },
-    {
-      titulo: 'The Scorsh Trials',
-      id: 'E-0002',
-      autor: 'James Dashner',
-      paginas: '360'
-    },
-    {
-      titulo: 'The Death Cure',
-      id: 'E-0003',
-      autor: 'James Dashner',
-      paginas: '325'
-    }
-  ]*/
 
 
 }

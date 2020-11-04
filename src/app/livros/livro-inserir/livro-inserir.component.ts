@@ -24,23 +24,15 @@ export class LivroInserirComponent{
     if (form.invalid)
       return;
     this.livroService.adicionarLivro(
-      form.value.titulo,
       form.value.id,
+      form.value.titulo,
       form.value.autor,
       form.value.paginas
+
     )
     form.resetForm()
   }
-      /*
-    const livro: Livro = {
-      titulo: form.value.titulo,
-      id: form.value.id,
-      autor: form.value.autor,
-      paginas: form.value.paginas
-    }
-    this.livroAdicionado.emit(livro);
-    //console.log ("Inserindo livro...");
-  }
+
 /*
   @Output() livroAdicionado = new EventEmitter<Livro>();
   onAdicionarLivro (){

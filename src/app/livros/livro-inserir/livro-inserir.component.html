@@ -12,18 +12,9 @@
     </mat-form-field>
     <mat-form-field>
       <input type="text"
-        required
-        matInput
-        placeholder="id"
-        name="id"
-        ngModel
-        #id="ngModel">
-      <mat-error *ngIf="id.invalid">Digite um id válido</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input type="text"
         required minlength="3"
-        matInput placeholder="autor"
+        matInput
+        placeholder="autor"
         name="autor"
         ngModel
         #autor="ngModel">
@@ -31,7 +22,7 @@
     </mat-form-field>
     <mat-form-field>
       <input type="text"
-        required
+        required minlength="1"
         matInput
         placeholder="paginas"
         name="paginas"
