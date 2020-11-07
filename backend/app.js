@@ -23,7 +23,7 @@ mongoose.connect('mongodb+srv://fatec_ipi:4houmedekimassu@marcelo.ekoio.mongodb.
 app.use ((req,res,next) => {
   res.setHeader ('Access-Control-Allow-Origin','*');
   res.setHeader ('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.setHeader ('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
+  res.setHeader ('Access-Control-Allow-Methods', 'GET, POST,PUT, PATCH, DELETE, OPTIONS');
   next();
 });
 
@@ -59,11 +59,10 @@ app.use ('/api/livros',(req,res,next) => {
 
 app.post('/api/livros', (req, res, next) => {
   const livro = new Livro ({
-
-    id: req.body.id,
     titulo: req.body.titulo,
     autor: req.body.autor,
-    paginas: req.body.paginas
+    paginas: req.body.paginas,
+    id: req.body.id
 
   });
   livro.save()
@@ -81,6 +80,7 @@ app.post('/api/livros', (req, res, next) => {
     })
   })
 });
+
 
 
 app.get ('/api/livros',(req, res, next) => {
@@ -101,6 +101,15 @@ app.get ('/api/livros',(req, res, next) => {
   })
 });
 
+app.get('/api/livros/:id', (req, res, next) =>{
+  Livro.findById(req.params.id).then( liv => {
+    if(liv)
+      res.status(200).json(liv)
+    else
+      res.status(404).json({mensagem: "Livro não encontrado!"})
+  })
+})
+
 //DELETE /api/livros/5f998a124381ae1ee15f8299
 app.delete ('/api/livros/:id' , (req, res, next) => {
   Livro.deleteOne({_id: req.params.id})
@@ -111,5 +120,21 @@ app.delete ('/api/livros/:id' , (req, res, next) => {
  // console.log(req.params);
   res.status(200).end();
 });
+
+app.put ('/api/livros/:idLivro' , (req,res, next) => {
+  const livro = new Livro ({
+    _id: req.params.idLivro,
+    titulo: req.body.titulo,
+    autor: req.body.autor,
+    paginas: req.body.paginas
+  });
+  Livro.updateOne(
+    {_id: req.params.idLivro},
+    livro
+  ).then(resultado =>{
+    console.log("Atualizou:" + JSON.stringify(resultado))
+    res.status(200).json({mensagem: 'Atualização realizada com sucesso'})
+  })
+})
 
 module.exports = app;

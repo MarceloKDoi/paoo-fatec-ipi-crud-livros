@@ -1,35 +1,73 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 //import { Livro } from '../livro.model';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { LivroService } from '../livro.service';
-
+import {Livro } from '../livro.model';
 @Component ({
   selector: 'app-livro-inserir',
   templateUrl: './livro-inserir.component.html',
   styleUrls: ['./livro-inserir.component.css']
 })
 
-export class LivroInserirComponent{
-/*
-  id: string;
-  titulo: string;
-  autor: string;
-  paginas: string;
+export class LivroInserirComponent implements OnInit{
 
-  @Output() livroAdicionado = new EventEmitter<Livro>();*/
+  private modo: string = "criar";
+  private idLivro: string;
+  public livro: Livro;
 
-  constructor (public livroService: LivroService){}
+  ngOnInit(){
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
 
-  onAdicionarLivro (form: NgForm){
+      if (paramMap.has('idLivro')){
+        this.modo = "editar";
+        this.idLivro = paramMap.get('idLivro');
+        this.livroService.getLivro(this.idLivro).subscribe(dadosLiv =>{
+          this.livro = {
+            id: dadosLiv._id,
+            titulo: dadosLiv.titulo,
+            autor: dadosLiv.autor,
+            paginas: dadosLiv.paginas
+          }
+        });
+      }
+      else{
+
+        this.modo = "criar";
+        this.idLivro = null;
+      }
+    })
+  }
+
+  constructor (
+    private livroService: LivroService,
+    private route: ActivatedRoute
+    ){}
+
+  onSalvarLivro (form: NgForm){
     if (form.invalid)
       return;
-    this.livroService.adicionarLivro(
-      form.value.id,
-      form.value.titulo,
-      form.value.autor,
-      form.value.paginas
 
-    )
+    if (this.modo === "criar"){
+
+      this.livroService.adicionarLivro(
+
+        form.value.titulo,
+        form.value.autor,
+        form.value.paginas,
+        form.value.id
+
+      )
+    }
+    else{
+      this.livroService.atualizarLivro(
+        this.idLivro,
+        form.value.titulo,
+        form.value.autor,
+        form.value.paginas
+      )
+    }
+
     form.resetForm()
   }
 

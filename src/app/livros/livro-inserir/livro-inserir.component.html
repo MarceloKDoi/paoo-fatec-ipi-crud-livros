@@ -1,12 +1,12 @@
 <mat-card>
-  <form (submit)="onAdicionarLivro(livroForm)" #livroForm="ngForm">
+  <form (submit)="onSalvarLivro(livroForm)" #livroForm="ngForm">
     <mat-form-field>
       <input type="text"
-        required minlength="2"
+        required
         matInput
         placeholder="titulo"
         name="titulo"
-        ngModel
+        [ngModel]="livro?.titulo"
         #titulo="ngModel">
       <mat-error *ngIf="titulo.invalid">Digite um titulo válido</mat-error>
     </mat-form-field>
@@ -16,7 +16,7 @@
         matInput
         placeholder="autor"
         name="autor"
-        ngModel
+        [ngModel]="livro?.autor"
         #autor="ngModel">
       <mat-error *ngIf="autor.invalid">Digite um nome válido</mat-error>
     </mat-form-field>
@@ -26,11 +26,11 @@
         matInput
         placeholder="paginas"
         name="paginas"
-        ngModel
+       [ngModel]="livro?.paginas"
         #paginas="ngModel">
       <mat-error *ngIf="paginas.invalid">Digite o número de páginas</mat-error>
     </mat-form-field>
-    <button mat-raised-button color="accent">Cadastrar</button>
+    <button mat-raised-button color="accent">Salvar Livro</button>
   </form>
 
 
