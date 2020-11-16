@@ -1,4 +1,5 @@
-<mat-accordion *ngIf="livros.length > 0">
+<mat-spinner *ngIf="estaCarregando"></mat-spinner>
+<mat-accordion *ngIf="livros.length > 0 && !estaCarregando">
   <mat-expansion-panel *ngFor="let livro of livros">
     <mat-expansion-panel-header>
      <p>{{livro.titulo}}</p>
@@ -12,4 +13,4 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
-<p class="mat-body-1" style="text-align:center" *ngIf="livros.length <= 0">Não há livros no Banco de Dados</p>
+<p class="mat-body-1" style="text-align:center" *ngIf="livros.length <= 0 && !estaCarregando">Não há livros no Banco de Dados</p>

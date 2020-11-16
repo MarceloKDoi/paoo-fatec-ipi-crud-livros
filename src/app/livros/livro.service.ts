@@ -3,6 +3,7 @@ import { Livro } from './livro.model';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 @Injectable ({providedIn: "root"})
@@ -12,7 +13,10 @@ export class LivroService{
   private livros: Livro[] = [];
   private listaLivrosAtualizada = new Subject <Livro[]>();
 
-  constructor(private httpClient: HttpClient){
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router
+  ){
 
   }
 
@@ -56,6 +60,7 @@ export class LivroService{
       copia[indice] = livro;
       this.livros = copia;
       this.listaLivrosAtualizada.next([...this.livros]);
+      this.router.navigate(['/']);
     });
   }
 
@@ -76,6 +81,7 @@ export class LivroService{
       livro.id = resposta.id;
       this.livros.push(livro);
       this.listaLivrosAtualizada.next([...this.livros]);
+      this.router.navigate(['/']);
 
     });
   }

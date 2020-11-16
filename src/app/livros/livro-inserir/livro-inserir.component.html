@@ -1,34 +1,43 @@
 <mat-card>
-  <form (submit)="onSalvarLivro(livroForm)" #livroForm="ngForm">
+  <mat-spinner *ngIf="estaCarregando"></mat-spinner>
+  <form [formGroup]="form" (submit)="onSalvarLivro()"  *ngIf="!estaCarregando">
+
     <mat-form-field>
-      <input type="text"
+      <input
+        type="text"
         required
         matInput
         placeholder="titulo"
+        formControlName ="titulo"
         name="titulo"
-        [ngModel]="livro?.titulo"
-        #titulo="ngModel">
-      <mat-error *ngIf="titulo.invalid">Digite um titulo válido</mat-error>
+      >
+      <mat-error *ngIf="form.get('titulo').invalid">Digite um titulo válido</mat-error>
     </mat-form-field>
+
+    <div>
+      <button mat-mat-stroked-button type="button" (click)="selecionaArquivo.click()">Selecionar imagem</button>
+      <input type="file" #selecionaArquivo>
+    </div>
+
     <mat-form-field>
       <input type="text"
         required minlength="3"
         matInput
         placeholder="autor"
+        formControlName="autor"
         name="autor"
-        [ngModel]="livro?.autor"
-        #autor="ngModel">
-      <mat-error *ngIf="autor.invalid">Digite um nome válido</mat-error>
+        >
+      <mat-error *ngIf="form.get('autor').invalid">Digite um nome válido</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input type="text"
         required minlength="1"
         matInput
         placeholder="paginas"
+        formControlName="paginas"
         name="paginas"
-       [ngModel]="livro?.paginas"
-        #paginas="ngModel">
-      <mat-error *ngIf="paginas.invalid">Digite o número de páginas</mat-error>
+       >
+      <mat-error *ngIf="form.get('paginas').invalid">Digite o número de páginas</mat-error>
     </mat-form-field>
     <button mat-raised-button color="primary">Salvar Livro</button>
   </form>
